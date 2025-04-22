@@ -32,7 +32,7 @@ export default function BookPage() {
   
   if (!book) {
     return (
-      <div className="container mx-auto px-8 py-12">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 py-6 md:py-12">
         <p className="text-center">Carregando...</p>
       </div>
     );
@@ -55,23 +55,23 @@ export default function BookPage() {
   };
 
   return (
-    <div className="container mx-auto px-8 py-12">
+    <div className="container mx-auto px-4 sm:px-6 md:px-8 py-6 md:py-12">
       <button
         onClick={() => router.back()}
-        className="flex items-center text-blue-600 mb-8 hover:underline"
+        className="flex items-center text-blue-600 mb-4 md:mb-8 hover:underline"
       >
         <ChevronLeft className="h-4 w-4 mr-1" />
         Voltar
       </button>
       
-      <div className="flex flex-row gap-12">
+      <div className="flex flex-col md:flex-row gap-6 md:gap-12">
         {/* Book Cover */}
-        <div className="w-1/3">
+        <div className="w-full md:w-1/3 mb-6 md:mb-0">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="relative aspect-[3/4] w-full rounded-lg overflow-hidden shadow-xl"
+            className="relative aspect-[3/4] w-full max-w-xs mx-auto md:mx-0 rounded-lg overflow-hidden shadow-xl"
           >
             <Image
               src={book.coverImage}
@@ -85,66 +85,66 @@ export default function BookPage() {
         </div>
         
         {/* Book Details */}
-        <div className="w-2/3">
+        <div className="w-full md:w-2/3">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="flex gap-2 mb-4">
+            <div className="flex flex-wrap gap-2 mb-3 md:mb-4">
               {book.categories.map(category => (
                 <span
                   key={category}
-                  className="px-3 py-1 bg-blue-50 text-blue-700 text-sm rounded-full"
+                  className="px-2 sm:px-3 py-1 bg-blue-50 text-blue-700 text-xs sm:text-sm rounded-full"
                 >
                   {category.replace(/-/g, ' ')}
                 </span>
               ))}
             </div>
             
-            <h1 className="text-4xl font-serif font-bold text-gray-800 mb-2">{book.title}</h1>
-            <p className="text-xl text-gray-600 mb-6">por {book.author}</p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-gray-800 mb-2">{book.title}</h1>
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-4 md:mb-6">por {book.author}</p>
             
-            <div className="bg-blue-50 p-4 rounded-lg mb-8">
-              <p className="text-3xl font-bold text-blue-600">{formatCurrency(book.price)}</p>
+            <div className="bg-blue-50 p-3 md:p-4 rounded-lg mb-6 md:mb-8">
+              <p className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600">{formatCurrency(book.price)}</p>
             </div>
             
-            <div className="flex items-center gap-8 mb-8">
+            <div className="flex flex-wrap items-center gap-4 md:gap-8 mb-6 md:mb-8">
               <div className="flex items-center">
-                <BookOpen className="h-5 w-5 text-gray-500 mr-2" />
-                <span className="text-gray-700">{book.pages} páginas</span>
+                <BookOpen className="h-4 w-4 md:h-5 md:w-5 text-gray-500 mr-1 md:mr-2" />
+                <span className="text-sm md:text-base text-gray-700">{book.pages} páginas</span>
               </div>
               
               <div className="flex items-center">
-                <Calendar className="h-5 w-5 text-gray-500 mr-2" />
-                <span className="text-gray-700">
+                <Calendar className="h-4 w-4 md:h-5 md:w-5 text-gray-500 mr-1 md:mr-2" />
+                <span className="text-sm md:text-base text-gray-700">
                   {new Date(book.publicationDate).toLocaleDateString('pt-BR')}
                 </span>
               </div>
               
               <div className="flex items-center">
-                <Languages className="h-5 w-5 text-gray-500 mr-2" />
-                <span className="text-gray-700">{book.language}</span>
+                <Languages className="h-4 w-4 md:h-5 md:w-5 text-gray-500 mr-1 md:mr-2" />
+                <span className="text-sm md:text-base text-gray-700">{book.language}</span>
               </div>
             </div>
             
-            <div className="mb-8">
-              <h3 className="text-xl font-bold text-gray-800 mb-2">Descrição</h3>
-              <p className="text-gray-700 leading-relaxed">{book.description}</p>
+            <div className="mb-6 md:mb-8">
+              <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2">Descrição</h3>
+              <p className="text-sm md:text-base text-gray-700 leading-relaxed">{book.description}</p>
             </div>
             
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-6 md:mb-8">
               <div className="flex items-center border border-gray-300 rounded">
                 <button
                   onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                  className="px-3 py-2 text-gray-600 hover:bg-gray-100"
+                  className="px-2 md:px-3 py-1 md:py-2 text-gray-600 hover:bg-gray-100"
                 >
                   -
                 </button>
-                <span className="px-4 py-2 border-x border-gray-300">{quantity}</span>
+                <span className="px-3 md:px-4 py-1 md:py-2 border-x border-gray-300">{quantity}</span>
                 <button
                   onClick={() => setQuantity(q => q + 1)}
-                  className="px-3 py-2 text-gray-600 hover:bg-gray-100"
+                  className="px-2 md:px-3 py-1 md:py-2 text-gray-600 hover:bg-gray-100"
                 >
                   +
                 </button>
@@ -154,7 +154,7 @@ export default function BookPage() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={handleAddToCart}
-                className={`flex items-center px-6 py-3 rounded-lg font-medium transition-colors ${
+                className={`flex items-center px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm md:text-base font-medium transition-colors ${
                   isAdding
                     ? "bg-green-600 text-white"
                     : "bg-blue-600 hover:bg-blue-700 text-white"
@@ -165,7 +165,7 @@ export default function BookPage() {
                   "Adicionado ✓"
                 ) : (
                   <>
-                    <ShoppingCart className="h-5 w-5 mr-2" />
+                    <ShoppingCart className="h-4 w-4 md:h-5 md:w-5 mr-1 md:mr-2" />
                     Adicionar ao Carrinho
                   </>
                 )}
@@ -173,14 +173,14 @@ export default function BookPage() {
               
               <button
                 onClick={handleBuyNow}
-                className="px-6 py-3 bg-gray-800 text-white rounded-lg font-medium hover:bg-gray-700 transition-colors"
+                className="px-4 md:px-6 py-2 md:py-3 bg-gray-800 text-white rounded-lg text-sm md:text-base font-medium hover:bg-gray-700 transition-colors"
               >
                 Comprar Agora
               </button>
             </div>
             
-            <div className="border-t border-gray-200 pt-4">
-              <p className="text-sm text-gray-500">ISBN: {book.isbn}</p>
+            <div className="border-t border-gray-200 pt-3 md:pt-4">
+              <p className="text-xs md:text-sm text-gray-500">ISBN: {book.isbn}</p>
             </div>
           </motion.div>
         </div>
