@@ -8,7 +8,7 @@ import { books } from "@/data/books";
 import { motion } from "framer-motion";
 import { useCart } from "@/contexts/CartContext";
 import { formatCurrency } from "@/lib/utils";
-import { ShoppingCart, ChevronLeft, BookOpen, Calendar, Language } from "lucide-react";
+import { ShoppingCart, ChevronLeft, BookOpen, Calendar, Languages } from "lucide-react";
 
 export default function BookPage() {
   const { id } = useParams();
@@ -123,7 +123,7 @@ export default function BookPage() {
               </div>
               
               <div className="flex items-center">
-                <Language className="h-5 w-5 text-gray-500 mr-2" />
+                <Languages className="h-5 w-5 text-gray-500 mr-2" />
                 <span className="text-gray-700">{book.language}</span>
               </div>
             </div>

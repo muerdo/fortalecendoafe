@@ -50,7 +50,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-5xl font-serif font-bold text-gray-800 mb-4"
+              className="text-5xl font-bold text-gray-800 mb-4"
             >
               Livraria Bíblica Digital
             </motion.h1>
@@ -72,14 +72,14 @@ export default function HomePage() {
 
         {/* Categories */}
         <section className="mb-16">
-          <h2 className="text-3xl font-serif font-bold text-gray-800 mb-6">Categorias</h2>
+          <h2 className="text-3xl font-bold text-gray-800 mb-6">Categorias</h2>
           <BookCategories onSelectCategory={handleCategoryFilter} />
         </section>
 
         {/* Book List */}
         <section className="mb-16">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl font-serif font-bold text-gray-800">Nossos eBooks</h2>
+            <h2 className="text-3xl font-bold text-gray-800">Nossos eBooks</h2>
             <Link 
               href="/books" 
               className="text-blue-600 hover:underline font-medium"
@@ -97,7 +97,7 @@ export default function HomePage() {
 
         {/* Call to Action */}
         <section className="bg-blue-50 p-12 rounded-lg text-center">
-          <h2 className="text-3xl font-serif font-bold text-gray-800 mb-4">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
             Pronto para enriquecer sua jornada espiritual?
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">

@@ -2,7 +2,7 @@ import React from "react";
 import "@/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
-import { GeistSerif } from "geist/font/serif";
+// GeistSerif is not available, using only GeistSans
 import { type Metadata } from "next";
 import {
   AnalyticsTracker,
@@ -65,7 +65,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" className={`${GeistSans.variable} ${GeistSerif.variable}`}>
+    <html lang="pt-BR" className={`${GeistSans.variable}`}>
       <body>
         <GlobalErrorHandler />
         <DOMInspector>
