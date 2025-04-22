@@ -1,3 +1,4 @@
+
 import React from "react";
 import "@/styles/globals.css";
 
@@ -75,10 +76,13 @@ export default function RootLayout({
         <DOMInspector>
           <ErrorBoundaryWrapper>
             <CartProvider>
-              <div className="min-h-screen flex flex-col">
+              {/* Overlay para melhorar legibilidade */}
+              <div className="min-h-screen flex flex-col relative">
+                {/* Camada de sobreposição semi-transparente */}
+                <div className="absolute inset-0 bg-white/90 -z-10"></div>
                 <Navbar />
                 <main className="flex-1">{children}</main>
-                <footer className="bg-gray-50 border-t border-gray-200 py-6 md:py-8">
+                <footer className="bg-gray-50/80 border-t border-gray-200 py-6 md:py-8">
                   <div className="container mx-auto px-4 sm:px-6 md:px-8 text-center text-gray-600">
                     <p className="text-xs md:text-sm">
                       &copy; {new Date().getFullYear()} Livraria Bíblica Digital. Todos os direitos reservados.

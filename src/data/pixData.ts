@@ -2,12 +2,18 @@ export interface PixData {
   merchantName: string;
   merchantCity: string;
   pixKey: string;
-  txid?: string;
+  mcc: string;  // Merchant Category Code
+  currency: string;  // Transaction Currency Code
+  countryCode: string;
+  referenceLabel: string;
 }
 
 export const pixPaymentData: PixData = {
-  merchantName: "Livraria Bíblica Digital",
-  merchantCity: "São Paulo",
-  pixKey: "biblia@email.com", // Email type PIX key (example)
-  txid: "EBOOKSBIBLICOS1234" // Optional transaction ID
+  merchantName: "PEDRO LUCAS CARVALHO OLIV",
+  merchantCity: "ACAILANDIA",
+  pixKey: "+5599981650963",
+  mcc: "0000",
+  currency: "986",
+  countryCode: "BR",
+  referenceLabel: "***"
 };

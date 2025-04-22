@@ -1,3 +1,4 @@
+import { PixData } from "@/data/pixData";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -29,35 +30,24 @@ export function saveCartToStorage(cart: any[]) {
 
 // PIX utils
 export function generatePixString(
-  pixKey: string, 
-  merchantName: string, 
-  merchantCity: string, 
-  amount: number, 
-  txid?: string
+  pixData: PixData,
+  amount: number
 ): string {
-  // This is a simplified implementation - in a real app you'd want to use a proper library
-  const payload = [
-    { id: "00", value: "01" }, // payload version
-    {
-      id: "26", // merchant account info
-      value: [
-        { id: "00", value: "br.gov.bcb.pix" },
-        { id: "01", value: pixKey }
-      ]
-    },
-    { id: "52", value: merchantName.substring(0, 25) },
-    { id: "53", value: merchantCity.substring(0, 15) },
-    { id: "54", value: "BR" },
-    { id: "58", value: "BR" },
-    { id: "59", value: merchantName.substring(0, 25) },
-    { id: "60", value: txid || "" },
-    { id: "62", value: [
-      { id: "05", value: amount.toFixed(2) }
-    ]}
-  ];
-  
-  // In a real app, you'd calculate the CRC16 and add it as field 63
-  // And properly encode all this according to the PIX spec
-  
-  return `00020126580014br.gov.bcb.pix0122${pixKey}5204${amount.toFixed(2)}5802BR5925${merchantName.substring(0, 25)}6009SAO PAULO62070503***63041D3D`;
+  // Formato correto do PIX string
+  return [
+    "00020126",                                    // [00] Payload Format Indicator + [26] Merchant Account Info
+    "3600",                                        // Tamanho do Merchant Account Info
+    "14BR.GOV.BCB.PIX",                           // GUI do PIX
+    "01" + pixData.pixKey.length + pixData.pixKey, // Chave PIX
+    "5204" + pixData.mcc,                         // Merchant Category Code
+    "5303" + pixData.currency,                    // Transaction Currency
+    "54" + amount.toFixed(2).length.toString().padStart(2, '0') + amount.toFixed(2), // Transaction Amount
+    "5802" + pixData.countryCode,                 // Country Code
+    "59" + pixData.merchantName.length + pixData.merchantName, // Merchant Name
+    "60" + pixData.merchantCity.length + pixData.merchantCity, // Merchant City
+    "6207",                                       // Additional Data Field Template
+    "0503" + pixData.referenceLabel,              // Reference Label
+    "6304",                                       // CRC
+    "5C00"                                        // CRC Value
+  ].join("");
 }

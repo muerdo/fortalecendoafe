@@ -23,13 +23,7 @@ export default function CheckoutPage() {
     
     // Generate PIX code based on cart total
     const totalAmount = cart.getTotalPrice();
-    const pixString = generatePixString(
-      pixPaymentData.pixKey,
-      pixPaymentData.merchantName,
-      pixPaymentData.merchantCity,
-      totalAmount,
-      pixPaymentData.txid
-    );
+    const pixString = generatePixString(pixPaymentData, totalAmount);
     
     setPixCode(pixString);
   }, [cart, router]);
