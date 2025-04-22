@@ -2,6 +2,7 @@ import React from "react";
 import "@/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
+import { GeistSerif } from "geist/font/serif";
 import { type Metadata } from "next";
 import {
   AnalyticsTracker,
@@ -10,6 +11,8 @@ import {
   Branding,
 } from "@/utils/creatr.scripts";
 import { GlobalErrorHandler } from "@/utils/global-error-handler";
+import { CartProvider } from "@/contexts/CartContext";
+import { Navbar } from "@/components/Navbar";
 
 // Create a proper React component wrapper
 const ErrorBoundaryWrapper: React.FC<{ children: React.ReactNode }> = (
@@ -28,15 +31,15 @@ export const viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Creatr",
-    template: "%s | Creatr",
+    default: "Livraria Bíblica Digital",
+    template: "%s | Livraria Bíblica Digital",
   },
-  description: "A modern web application built with Next.js and TypeScript",
-  applicationName: "Creatr",
-  keywords: ["next.js", "react", "typescript", "web application"],
-  authors: [{ name: "Creatr Team" }],
-  creator: "Creatr Team",
-  publisher: "Creatr Team",
+  description: "Compre eBooks bíblicos e pague via PIX",
+  applicationName: "Livraria Bíblica Digital",
+  keywords: ["ebooks", "bíblia", "livraria", "digital", "pix", "leitura cristã"],
+  authors: [{ name: "Livraria Bíblica Digital" }],
+  creator: "Livraria Bíblica Digital",
+  publisher: "Livraria Bíblica Digital",
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -51,7 +54,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Creatr",
+    title: "Livraria Bíblica Digital",
   },
   formatDetection: {
     telephone: false,
@@ -62,14 +65,25 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
+    <html lang="pt-BR" className={`${GeistSans.variable} ${GeistSerif.variable}`}>
       <body>
-        {" "}
         <GlobalErrorHandler />
         <DOMInspector>
           <ErrorBoundaryWrapper>
-            {children}
-            <Branding />
+            <CartProvider>
+              <div className="min-h-screen flex flex-col">
+                <Navbar />
+                <main className="flex-1">{children}</main>
+                <footer className="bg-gray-50 border-t border-gray-200 py-8">
+                  <div className="container mx-auto px-8 text-center text-gray-600">
+                    <p className="text-sm">
+                      &copy; {new Date().getFullYear()} Livraria Bíblica Digital. Todos os direitos reservados.
+                    </p>
+                  </div>
+                </footer>
+              </div>
+              <Branding />
+            </CartProvider>
           </ErrorBoundaryWrapper>
           <AnalyticsTracker siteKey="${siteKey}" />
         </DOMInspector>
