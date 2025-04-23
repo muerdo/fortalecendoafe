@@ -64,6 +64,7 @@ export function Navbar() {
               <ShoppingCart className="h-5 w-5 md:h-6 md:w-6 text-gray-700 hover:text-blue-600" />
               {cartCount > 0 && (
                 <motion.span
+                  key="cart-count"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-bold w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center"
@@ -85,9 +86,10 @@ export function Navbar() {
         </div>
         
         {/* Mobile Menu */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {menuOpen && (
             <motion.div
+              key="mobile-menu"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}

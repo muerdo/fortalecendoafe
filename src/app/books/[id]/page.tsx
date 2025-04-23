@@ -21,7 +21,7 @@ export default function BookPage() {
   
   useEffect(() => {
     // Find the book with the matching ID
-    const foundBook = books.find(b => b.id === id);
+    const foundBook = books.find(b => b.id === String(id));
     if (foundBook) {
       setBook(foundBook);
     } else {
@@ -30,15 +30,9 @@ export default function BookPage() {
     }
   }, [id, router]);
   
-  if (!book) {
-    return (
-      <div className="container mx-auto px-4 sm:px-6 md:px-8 py-6 md:py-12">
-        <p className="text-center">Carregando...</p>
-      </div>
-    );
-  }
-  
   const handleAddToCart = () => {
+    if (!book) return;
+    
     setIsAdding(true);
     cart.addToCart(book, quantity);
     
@@ -50,9 +44,19 @@ export default function BookPage() {
   };
   
   const handleBuyNow = () => {
+    if (!book) return;
+    
     cart.addToCart(book, quantity);
     router.push("/cart");
   };
+
+  if (!book) {
+    return (
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 py-6 md:py-12">
+        <p className="text-center">Carregando...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 sm:px-6 md:px-8 py-6 md:py-12">

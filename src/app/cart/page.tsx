@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useCart } from "@/contexts/CartContext";
 import { formatCurrency } from "@/lib/utils";
 import { Trash2, ShoppingCart, ArrowRight, ChevronLeft } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function CartPage() {
   const cart = useCart();
@@ -62,126 +62,130 @@ export default function CartPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {cart.items.map((item) => (
-                    <motion.tr 
-                      key={item.book.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      layout
-                    >
-                      <td className="px-4 md:px-6 py-4">
-                        <div className="flex items-center">
-                          <div className="h-16 w-12 flex-shrink-0 mr-3 md:mr-4 relative">
-                            <Image
-                              src={item.book.coverImage}
-                              alt={item.book.title}
-                              fill
-                              className="object-cover rounded"
-                            />
+                  <AnimatePresence>
+                    {cart.items.map((item) => (
+                      <motion.tr 
+                        key={item.book.id}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        layout
+                      >
+                        <td className="px-4 md:px-6 py-4">
+                          <div className="flex items-center">
+                            <div className="h-16 w-12 flex-shrink-0 mr-3 md:mr-4 relative">
+                              <Image
+                                src={item.book.coverImage}
+                                alt={item.book.title}
+                                fill
+                                className="object-cover rounded"
+                              />
+                            </div>
+                            <div>
+                              <div className="font-medium text-gray-800 text-sm md:text-base">{item.book.title}</div>
+                              <div className="text-xs md:text-sm text-gray-500">{item.book.author}</div>
+                            </div>
                           </div>
-                          <div>
-                            <div className="font-medium text-gray-800 text-sm md:text-base">{item.book.title}</div>
-                            <div className="text-xs md:text-sm text-gray-500">{item.book.author}</div>
+                        </td>
+                        <td className="px-4 md:px-6 py-4 text-gray-700 text-sm md:text-base">
+                          {formatCurrency(item.book.price)}
+                        </td>
+                        <td className="px-4 md:px-6 py-4">
+                          <div className="flex items-center border border-gray-300 rounded w-20 md:w-24">
+                            <button
+                              onClick={() => cart.updateQuantity(item.book.id, item.quantity - 1)}
+                              className="px-2 py-1 text-gray-600 hover:bg-gray-100"
+                            >
+                              -
+                            </button>
+                            <span className="px-2 md:px-3 py-1 border-x border-gray-300 flex-1 text-center text-sm md:text-base">
+                              {item.quantity}
+                            </span>
+                            <button
+                              onClick={() => cart.updateQuantity(item.book.id, item.quantity + 1)}
+                              className="px-2 py-1 text-gray-600 hover:bg-gray-100"
+                            >
+                              +
+                            </button>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-4 md:px-6 py-4 text-gray-700 text-sm md:text-base">
-                        {formatCurrency(item.book.price)}
-                      </td>
-                      <td className="px-4 md:px-6 py-4">
-                        <div className="flex items-center border border-gray-300 rounded w-20 md:w-24">
+                        </td>
+                        <td className="px-4 md:px-6 py-4 font-medium text-gray-900 text-sm md:text-base">
+                          {formatCurrency(item.book.price * item.quantity)}
+                        </td>
+                        <td className="px-4 md:px-6 py-4">
                           <button
-                            onClick={() => cart.updateQuantity(item.book.id, item.quantity - 1)}
-                            className="px-2 py-1 text-gray-600 hover:bg-gray-100"
+                            onClick={() => cart.removeFromCart(item.book.id)}
+                            className="text-red-600 hover:text-red-800"
                           >
-                            -
+                            <Trash2 className="h-4 w-4 md:h-5 md:w-5" />
                           </button>
-                          <span className="px-2 md:px-3 py-1 border-x border-gray-300 flex-1 text-center text-sm md:text-base">
-                            {item.quantity}
-                          </span>
-                          <button
-                            onClick={() => cart.updateQuantity(item.book.id, item.quantity + 1)}
-                            className="px-2 py-1 text-gray-600 hover:bg-gray-100"
-                          >
-                            +
-                          </button>
-                        </div>
-                      </td>
-                      <td className="px-4 md:px-6 py-4 font-medium text-gray-900 text-sm md:text-base">
-                        {formatCurrency(item.book.price * item.quantity)}
-                      </td>
-                      <td className="px-4 md:px-6 py-4">
-                        <button
-                          onClick={() => cart.removeFromCart(item.book.id)}
-                          className="text-red-600 hover:text-red-800"
-                        >
-                          <Trash2 className="h-4 w-4 md:h-5 md:w-5" />
-                        </button>
-                      </td>
-                    </motion.tr>
-                  ))}
+                        </td>
+                      </motion.tr>
+                    ))}
+                  </AnimatePresence>
                 </tbody>
               </table>
             </div>
             
             {/* Mobile Card View */}
             <div className="md:hidden">
-              {cart.items.map((item) => (
-                <motion.div 
-                  key={item.book.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  layout
-                  className="p-4 border-b border-gray-200 last:border-b-0"
-                >
-                  <div className="flex gap-3 mb-3">
-                    <div className="h-20 w-14 flex-shrink-0 relative">
-                      <Image
-                        src={item.book.coverImage}
-                        alt={item.book.title}
-                        fill
-                        className="object-cover rounded"
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-medium text-gray-800 mb-1">{item.book.title}</div>
-                      <div className="text-xs text-gray-500 mb-2">{item.book.author}</div>
-                      <div className="text-sm font-medium text-gray-700">{formatCurrency(item.book.price)}</div>
-                    </div>
-                    <button
-                      onClick={() => cart.removeFromCart(item.book.id)}
-                      className="text-red-600 hover:text-red-800 self-start"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center border border-gray-300 rounded w-24">
+              <AnimatePresence>
+                {cart.items.map((item) => (
+                  <motion.div 
+                    key={item.book.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    layout
+                    className="p-4 border-b border-gray-200 last:border-b-0"
+                  >
+                    <div className="flex gap-3 mb-3">
+                      <div className="h-20 w-14 flex-shrink-0 relative">
+                        <Image
+                          src={item.book.coverImage}
+                          alt={item.book.title}
+                          fill
+                          className="object-cover rounded"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium text-gray-800 mb-1">{item.book.title}</div>
+                        <div className="text-xs text-gray-500 mb-2">{item.book.author}</div>
+                        <div className="text-sm font-medium text-gray-700">{formatCurrency(item.book.price)}</div>
+                      </div>
                       <button
-                        onClick={() => cart.updateQuantity(item.book.id, item.quantity - 1)}
-                        className="px-2 py-1 text-gray-600 hover:bg-gray-100"
+                        onClick={() => cart.removeFromCart(item.book.id)}
+                        className="text-red-600 hover:text-red-800 self-start"
                       >
-                        -
-                      </button>
-                      <span className="px-2 py-1 border-x border-gray-300 flex-1 text-center text-sm">
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() => cart.updateQuantity(item.book.id, item.quantity + 1)}
-                        className="px-2 py-1 text-gray-600 hover:bg-gray-100"
-                      >
-                        +
+                        <Trash2 className="h-4 w-4" />
                       </button>
                     </div>
-                    <div className="font-medium text-gray-900">
-                      Total: {formatCurrency(item.book.price * item.quantity)}
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center border border-gray-300 rounded w-24">
+                        <button
+                          onClick={() => cart.updateQuantity(item.book.id, item.quantity - 1)}
+                          className="px-2 py-1 text-gray-600 hover:bg-gray-100"
+                        >
+                          -
+                        </button>
+                        <span className="px-2 py-1 border-x border-gray-300 flex-1 text-center text-sm">
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() => cart.updateQuantity(item.book.id, item.quantity + 1)}
+                          className="px-2 py-1 text-gray-600 hover:bg-gray-100"
+                        >
+                          +
+                        </button>
+                      </div>
+                      <div className="font-medium text-gray-900">
+                        Total: {formatCurrency(item.book.price * item.quantity)}
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
           </div>
           
